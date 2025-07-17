@@ -68,10 +68,11 @@ No additional secrets are required. The workflow uses the built-in `GITHUB_TOKEN
 - Creating releases and uploading assets
 
 ### Optional: Codecov Integration
-To enable code coverage reporting to Codecov:
+Code coverage is generated but not uploaded by default. To enable Codecov:
 1. Sign up at https://codecov.io
 2. Add your repository
-3. No additional secrets needed (uses GitHub token)
+3. Uncomment the codecov upload step in the workflow
+4. Add CODECOV_TOKEN secret if your repository is private
 
 ## Customization
 

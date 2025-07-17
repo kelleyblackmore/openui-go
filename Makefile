@@ -22,7 +22,7 @@ prepare-frontend:
 # Build the application
 build: deps prepare-frontend
 	@echo "Building ${BINARY_NAME}..."
-	go build ${LDFLAGS} -o bin/${BINARY_NAME} ./cmd
+	go build ${LDFLAGS} -o bin/${BINARY_NAME} .
 
 # Build for multiple platforms
 build-all: deps prepare-frontend
@@ -57,7 +57,11 @@ test:
 clean:
 	@echo "Cleaning..."
 	rm -rf bin/
-	rm -rf assets/frontend/
+	rm -rf temp_*/
+	rm -rf assets/frontend/*
+	@mkdir -p assets/frontend
+	@echo "# This file exists to preserve the directory structure in git" > assets/frontend/.gitkeep
+	@echo "# The actual frontend files will be pulled and built at build time" >> assets/frontend/.gitkeep
 	go clean
 
 # Install the binary

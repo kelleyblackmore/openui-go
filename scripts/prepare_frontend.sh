@@ -37,7 +37,14 @@ fi
 # Check if node/npm is available
 if ! command -v npm &> /dev/null; then
     print_warning "npm is not installed. You'll need to build the frontend manually."
-    print_warning "Please install Node.js and npm, then run: cd $TEMP_DIR && npm install && npm run build"
+    print_warning "Please install Node.js 20+ and npm, then run: cd $TEMP_DIR && npm install && npm run build"
+elif command -v node &> /dev/null; then
+    NODE_VERSION=$(node --version | sed 's/v//')
+    NODE_MAJOR=$(echo $NODE_VERSION | cut -d. -f1)
+    if [ "$NODE_MAJOR" -lt 20 ]; then
+        print_warning "Node.js version $NODE_VERSION detected. OpenWebUI requires Node.js 20+."
+        print_warning "Please upgrade Node.js to version 20 or higher."
+    fi
 fi
 
 # Clean up any existing temp directory

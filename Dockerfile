@@ -1,8 +1,21 @@
-# Build stage
+# Node.js stage for frontend preparation
+FROM node:20-alpine AS frontend-builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy source code
+COPY . .
+
+# Make scripts executable and prepare frontend
+RUN chmod +x scripts/*.sh && \
+    ./scripts/prepare_frontend.sh
+
+# Go build stage
 FROM golang:1.21-alpine AS builder
 
 # Install git and build dependencies
-RUN apk add --no-cache git make bash curl nodejs npm
+RUN apk add --no-cache git make bash curl
 
 # Set working directory
 WORKDIR /app
@@ -16,11 +29,8 @@ RUN go mod download
 # Copy source code
 COPY . .
 
-# Make scripts executable
-RUN chmod +x scripts/*.sh
-
-# Prepare frontend assets
-RUN make prepare-frontend
+# Copy prepared frontend from frontend-builder stage
+COPY --from=frontend-builder /app/assets/frontend ./assets/frontend
 
 # Build the application
 ARG VERSION=dev

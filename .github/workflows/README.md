@@ -62,6 +62,10 @@ The workflow can be manually triggered from the Actions tab in your GitHub repos
 
 ## Setup Requirements
 
+### System Requirements
+- **Node.js 20+**: Required for building the OpenWebUI frontend components
+- **Go 1.21**: Specified in the workflow for building the backend
+
 ### Repository Secrets
 No additional secrets are required. The workflow uses the built-in `GITHUB_TOKEN` for:
 - Publishing Docker images to GitHub Container Registry
@@ -99,7 +103,16 @@ Customize the release job to include additional files or change compression form
 
 To test the build process locally:
 
+### Prerequisites
+- Go 1.21+
+- Node.js 20+ (required for frontend preparation)
+- Make
+
+### Commands
 ```bash
+# Prepare frontend assets
+make prepare-frontend
+
 # Build for current platform
 make build
 
